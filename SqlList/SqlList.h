@@ -5,7 +5,12 @@
 
 #ifndef DS_SQLLIST_H
 #define DS_SQLLIST_H
-#include <cstdlib>
+#include "cstdlib"
+#include "algorithm"
+#include "cstring"
+
+using namespace std;
+
 #define MaxSize 50
 typedef int ElemType;
 typedef struct {
@@ -138,6 +143,50 @@ bool ListDelete(SqlList* &L,int i,ElemType &e){
     L->length--;
     return true;
 }
+
+/**
+ * 删除值为x的所有结点
+ * @param L
+ * @param x
+ */
+__unused void delnodel(SqlList* &L,ElemType x){
+    int k = 0;
+    for(int i = 0; i < L->length; i++){
+        if(L->data[i] != x){
+            L->data[k] = L->data[i];
+            k++;
+        }
+    }
+    L->length = k;
+}
+
+/**
+ * 分界
+ * @param L
+ * @return
+ */
+__used void partitionl(SqlList* &L){
+
+    ElemType pivot = L->data[0]; //以data[0]为基准
+    int i = 0;
+    int j = L->length-1;
+
+    while(i < j){
+       while(i < j && L->data[j]>pivot){
+           j--;
+       }
+       while(i < j && L->data[i]<=pivot){
+           i++;
+       }
+       if(i < j){
+           swap(L->data[i],L->data[j]);
+       }
+    }
+    swap(L->data[0],L->data[i]);
+}
+
+
+
 
 
 #endif //DS_SQLLIST_H
