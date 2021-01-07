@@ -48,6 +48,7 @@ void CreateListR(LinkNode* &L,ElemType a[],int n){
     r = L;
     for(int i = 0; i < n; i++){
         s = (LinkNode*)malloc(sizeof(LinkNode));
+        s->data = a[i];
         r->next = s;
         r = s;
     }
@@ -108,8 +109,8 @@ int ListLength(LinkNode* L){
  * @param L
  */
 void DispList(LinkNode* L){
-    LinkNode *p = L;
-    while(p->next != nullptr){
+    LinkNode *p = L->next;
+    while(p != nullptr){
         printf("%d ",p->data);
         p = p->next;
     }
