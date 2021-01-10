@@ -133,6 +133,18 @@ bool ListDelete(DLinkNode *&L, int i, ElemType &e) {
 
 }
 
+/**
+ * 打印双链表
+ * @param L
+ */
+void ListPrint(DLinkNode *L){
+    L = L->next;
+    while(L){
+        printf("%d ",L->data);
+        L = L->next;
+    }
+    printf("\n");
+}
 
 
 
