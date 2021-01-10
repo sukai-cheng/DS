@@ -110,7 +110,7 @@ bool ListDelete(DLinkNode *&L, int i, ElemType &e) {
     DLinkNode *p = L, *q;
     if (i <= 0) return false;
 
-    while (j < j - 1 && p != nullptr) {
+    while (j < i - 1 && p != nullptr) {
         j++;
         p = p->next;
     }
