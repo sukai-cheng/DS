@@ -2,8 +2,8 @@
 // Created by 承苏凯 on 2021/1/18.
 //
 
-#ifndef DS_SQQUEUE_H
-#define DS_SQQUEUE_H
+#ifndef DS_CCQUEUE1_H
+#define DS_CCQUEUE1_H
 
 #include "iostream"
 #include "cstdlib"
@@ -49,10 +49,10 @@ bool QueueEmpty(SqQueue *q) {
  * @return
  */
 bool enQueue(SqQueue *&q, ElemType &e) {
-    if (q->rear == MaxSize - 1) {
+    if ((q->rear + 1) % MaxSize == q->front) {
         return false;
     }
-    q->rear++;
+    q->rear = (q->rear + 1) % MaxSize;
     q->data[q->rear] = e;
     return true;
 }
@@ -66,10 +66,10 @@ bool deQueue(SqQueue *&q, ElemType &e) {
     if (q->front == q->rear) {
         return false;
     }
+    q->front = (q->front + 1) % MaxSize;
     e = q->data[q->front];
-    q->front++;
     return true;
 }
 
 
-#endif //DS_SQQUEUE_H
+#endif //DS_CCQUEUE1_H
