@@ -103,7 +103,7 @@ BTNode *FindNode(BTNode *b, ElemType x) {
  * @param p
  * @return
  */
-BTNode *LchildNode(BTNode *p) {
+__used BTNode *LchildNode(BTNode *p) {
     return p->lchild;
 }
 
@@ -112,7 +112,7 @@ BTNode *LchildNode(BTNode *p) {
  * @param p
  * @return
  */
-BTNode *RchildNode(BTNode *p) {
+__used BTNode *RchildNode(BTNode *p) {
     return p->rchild;
 }
 
@@ -233,6 +233,10 @@ bool ancestor(BTNode *b, ElemType x) {
     }
 }
 
+/**
+ * 先序遍历
+ * @param b
+ */
 void PreOrder1(BTNode *b) {
     BTNode *p;
     p = b;
@@ -254,6 +258,10 @@ void PreOrder1(BTNode *b) {
 
 }
 
+/**
+ * 中序遍历
+ * @param b
+ */
 void InOrder1(BTNode *b) {
     BTNode *p;
     stack<BTNode *> st;
@@ -272,6 +280,10 @@ void InOrder1(BTNode *b) {
     printf("\n");
 }
 
+/**
+ * 后序遍历 todo
+ * @param b
+ */
 //void PostOrder1(BTNode * b){
 //    BTNode * p , * r;
 //    bool flag;
