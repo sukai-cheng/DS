@@ -3,13 +3,16 @@
 // Created by 承苏凯 on 2021/1/21.
 //
 
-#ifndef DS_ADJGRAPH_H
-#define DS_ADJGRAPH_H
+#include "queue"
+
+using namespace std;
+
 #define MaxVertexNum 100
 #define INFINITY 65535
 typedef int Vertex;
 typedef int WeightType;
 typedef char DataType;
+Vertex Visited[MaxVertexNum];
 
 /**
  * 边的定义
@@ -50,6 +53,11 @@ MGraph CreateGraph(int VertexNum) {
     return Graph;
 }
 
+/**
+ * 插入一条边
+ * @param Graph
+ * @param E
+ */
 void InsertEdge(MGraph Graph, Edge E) {
     Graph->G[E->V1][E->V2] = E->weight;
     Graph->G[E->V2][E->V1] = E->weight;
@@ -84,5 +92,47 @@ MGraph BuildGraph() {
     return Graph;
 }
 
+/**
+ * 访问结点
+ * @param V
+ */
+void Visit(Vertex V) {
+    printf("正在访问的顶点是%d\n", V);
+}
 
-#endif //DS_ADJGRAPH_H
+/**
+ * 判断顶点V和W之间是否有一条边
+ * @param Graph
+ * @param V
+ * @param W
+ * @return
+ */
+bool isEdge(MGraph Graph, Vertex V, Vertex W) {
+    return Graph->G[V][W] < INFINITY ? true : false;
+}
+
+/**
+ * 广度优先遍历
+ * @param Graph
+ * @param S
+ * @param Visit
+ */
+void BFS(MGraph Graph, Vertex S, void (*Visit)(Vertex)) {
+    queue<Vertex> Q;
+    Vertex V, W;
+    Visit(S);
+    Visited[S] = true;
+    Q.push(S);
+    while (!Q.empty()) {
+        V = Q.front();
+        Q.pop();
+        for (W = 0; W < Graph->Nv; W++) {
+            if (!Visited[W] && isEdge(Graph, V, W)) {
+                Visit(W);
+                Visited[W] = true;
+                Q.push(W);
+            }
+        }
+    }
+}
+

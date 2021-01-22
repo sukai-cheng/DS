@@ -9,11 +9,12 @@
 typedef int Vertex; /*顶点下标表示顶点，为整型*/
 typedef int WeightType; /*边的权值设为整型*/
 typedef char DataType;
+bool visited[MaxVertexNum];
 
 /*边的定义*/
 typedef struct ENode *PtrToENode;
-struct ENode{
-    Vertex V1,V2;
+struct ENode {
+    Vertex V1, V2;
     WeightType Weight;
 };
 typedef PtrToENode Edge;
@@ -22,7 +23,7 @@ typedef PtrToENode Edge;
  * 邻接点
  */
 typedef struct AdjVnode *PtrToAdjNode;
-struct AdjVnode{
+struct AdjVnode {
     Vertex AdjV;
     WeightType Weight;
     PtrToAdjNode Next;
@@ -31,16 +32,16 @@ struct AdjVnode{
 /**
  * 顶点表头结点(相当于邻接表)
  */
-typedef struct Vnode{
+typedef struct Vnode {
     PtrToAdjNode FirstEdge; /*指向第一个邻接点*/
     DataType data;
-}AdjList[MaxVertexNum];
+} AdjList[MaxVertexNum];
 
 /**
  * 图结点的定义
  * */
 typedef struct GNode *PtrToGNode;
-struct GNode{
+struct GNode {
     int Nv; //number of vertex
     int Ne; //number of edge
     AdjList G; // 邻接表G
@@ -52,15 +53,15 @@ typedef PtrToGNode LGraph;
  * @param VertexNum
  * @return
  */
-LGraph CreateGraph(int VertexNum){
+LGraph CreateGraph(int VertexNum) {
     Vertex V;
     LGraph Graph;
 
-    Graph = (LGraph)malloc(sizeof(GNode));
+    Graph = (LGraph) malloc(sizeof(GNode));
     Graph->Nv = VertexNum;
     Graph->Ne = 0;
 
-    for(V = 0; V < Graph->Nv; V++){
+    for (V = 0; V < Graph->Nv; V++) {
         Graph->G[V].FirstEdge = nullptr;
     }
 }
@@ -70,11 +71,11 @@ LGraph CreateGraph(int VertexNum){
  * @param Graph
  * @param E
  */
-void InsertEdge(LGraph Graph, Edge E){
+void InsertEdge(LGraph Graph, Edge E) {
 
     PtrToAdjNode NewNode;
 
-    NewNode = (PtrToAdjNode)malloc(sizeof(struct AdjVnode));
+    NewNode = (PtrToAdjNode) malloc(sizeof(struct AdjVnode));
     NewNode->AdjV = E->V2;
     NewNode->Weight = E->Weight;
     /*头插法*/
@@ -86,7 +87,7 @@ void InsertEdge(LGraph Graph, Edge E){
  * 构建图
  * @return
  */
-LGraph BuildGraph(){
+LGraph BuildGraph() {
     LGraph Graph;
     Edge E;
     Vertex V;
@@ -95,14 +96,40 @@ LGraph BuildGraph(){
     scanf("%d", &Nv);
     Graph = CreateGraph(Nv);
 
-    scanf("%d",&(Graph->Ne));
-    if(Graph->Ne != 0){
-        E = (Edge)malloc(sizeof(struct ENode));
-        for(i = 0 ; i < Graph->Ne; i++){
-            scanf("%d %d %d", &E->V1,&E->V2,&E->Weight);
+    scanf("%d", &(Graph->Ne));
+    if (Graph->Ne != 0) {
+        E = (Edge) malloc(sizeof(struct ENode));
+        for (i = 0; i < Graph->Ne; i++) {
+            scanf("%d %d %d", &E->V1, &E->V2, &E->Weight);
             InsertEdge(Graph, E);
         }
     }
+}
+
+/**
+ * 访问顶点
+ * @param V
+ */
+void Visit(Vertex V) {
+    printf("正在访问的顶点是%d\n", V);
+}
+
+/**
+ * 深度优先遍历
+ * @param Graph
+ * @param V
+ */
+void DFS(LGraph Graph, Vertex V) {
+    PtrToAdjNode W;
+    Visit(V);
+    visited[V] = true;
+
+    for (W = Graph->G[V].FirstEdge; W; W = W->Next) {
+        if (!visited[W->AdjV]) {
+            DFS(Graph, W->AdjV);
+        }
+    }
+
 }
 
 #endif //DS_MATGRAPH_H
